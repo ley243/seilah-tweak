@@ -1,0 +1,9 @@
+Package: com.seilah.rosauthhook
+Name: SeilahXDJA
+Depends: mobilesubstrate
+Version: 1.0
+Architecture: iphoneos-arm64
+Description: Seilah login gate
+Maintainer: Sam
+Author: Sam
+Section: Tweaks
