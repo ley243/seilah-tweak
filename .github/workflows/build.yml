@@ -9,31 +9,18 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Theos
-        run: |
-          set -e
-          export THEOS=/opt/theos
-          echo "THEOS=/opt/theos" >> $GITHUB_ENV
-
-          git clone --recursive \
-            https://github.com/theos/theos.git \
-            $THEOS
-
-          mkdir -p $THEOS/sdks
-          curl -fsSL \
-            https://github.com/theos/sdks/releases/download/main/iPhoneOS16.5.sdk.tar.xz \
-            -o sdk.tar.xz
-          tar -xf sdk.tar.xz -C $THEOS/sdks/
+        uses: theos/theos-action@v1
+        with:
+          cache: false
+          sdks-url: https://github.com/theos/sdks/releases/download/main/iPhoneOS16.5.sdk.tar.xz
 
       - name: Build tweak
         run: |
-          make package \
-            FINALPACKAGE=1 \
-            THEOS=$THEOS \
-            THEOS_DEVICE_IP=0.0.0.0
+          make package FINALPACKAGE=1
 
       - name: Upload .deb
         uses: actions/upload-artifact@v4
